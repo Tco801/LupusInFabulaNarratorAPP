@@ -194,7 +194,7 @@ function startNight() {
 function showNightAnimation() {
     const animation = document.createElement('div');
     animation.className = 'night-animation';
-    animation.innerHTML = '🌙 Inizia la gara notturna di orienteering... 🏃‍♂️';
+    animation.innerHTML = '🌙 Inizia la gara in notturna di orienteering... 🏃‍♂️';
     document.body.appendChild(animation);
     
     setTimeout(() => {
@@ -349,9 +349,9 @@ function confirmSeerVision() {
 function processMitomaneTurn(narratorText, roleActions) {
     const targets = gameState.players.filter(p => p.alive && p.role !== 'Il Galletti');
     
-    narratorText.innerHTML = '<h3>"Il Galletti osserva gli altri, chi vuoi seguire e imitare?"</h3>';
+    narratorText.innerHTML = '<h3>"Il Galletti osserva gli arrivi con eccitazione, di chi vuoi esaltare lo sprint finale?"</h3>';
     
-    let selectHtml = '<select id="mitomane-target"><option value="">Seleziona chi seguire</option>';
+    let selectHtml = '<select id="mitomane-target"><option value="">Seleziona chi esaltare</option>';
     targets.forEach(player => {
         selectHtml += `<option value="${player.id}">${player.name}</option>`;
     });
@@ -359,14 +359,14 @@ function processMitomaneTurn(narratorText, roleActions) {
     
     roleActions.innerHTML = `
         ${selectHtml}
-        <button class="btn" onclick="confirmMitomaneChoice()">Conferma Imitazione</button>
+        <button class="btn" onclick="confirmMitomaneChoice()">Conferma Esaltazione</button>
     `;
 }
 
 function confirmMitomaneChoice() {
     const targetId = document.getElementById('mitomane-target').value;
     if (!targetId) {
-        alert('Seleziona chi imitare!');
+        alert('Seleziona chi esaltare!');
         return;
     }
     
@@ -376,7 +376,7 @@ function confirmMitomaneChoice() {
     gameState.mitomaneNewRole = target.role;
     mitomane.role = target.role;
     
-    document.getElementById('narrator-text').innerHTML = '<h3>"Il Galletti si nasconde tra gli alberi"</h3>';
+    document.getElementById('narrator-text').innerHTML = '<h3>"Il galletti urla a scquarcia gola nel microfono che non cè conuntdown e si risiede"</h3>';
     document.getElementById('role-actions').innerHTML = '';
     
     setTimeout(() => {
@@ -389,7 +389,7 @@ function processWitchTurn(narratorText, roleActions) {
     const willDie = targetToKill && !targetToKill.protected;
     
     let deathText = willDie ? targetToKill.name : 'Nessuno';
-    narratorText.innerHTML = `<h3>"Noemi controlla il percorso, questa notte perderà la strada: ${deathText}"</h3>`;
+    narratorText.innerHTML = `<h3>"Noemi controlla il percorso, questa notte  si perderà: ${deathText}"</h3>`;
     
     let actions = '<h4>Cosa vuoi fare?</h4>';
     
@@ -451,7 +451,7 @@ function finishWitchTurn() {
     document.getElementById('role-actions').innerHTML = '';
     
     setTimeout(() => {
-        document.getElementById('narrator-text').innerHTML = '<h3>"Noemi torna al campo base"</h3>';
+        document.getElementById('narrator-text').innerHTML = '<h3>"Noemi torna al ritrovo."</h3>';
         
         setTimeout(() => {
             nextRole();
@@ -478,13 +478,13 @@ function startDay() {
         const target = gameState.players.find(p => p.id === gameState.targetToKill);
         if (target && !target.protected) {
             target.alive = false;
-            deaths.push(`${target.name} si è perso nel buio e ha abbandonato la gara`);
+            deaths.push(`${target.name} si è perso nel buio e si è ritirato`);
         } else if (target && target.protected) {
             deaths.push(`${target.name} è stato guidato da Lo Zio Tony e ha ritrovato la strada`);
         }
     }
     
-    let dayResults = '<h3>"Spunta l\'alba, i partecipanti si radunano al punto di controllo"</h3>';
+    let dayResults = '<h3>"Spunta l\'alba, i partecipanti si radunano al ritrovo"</h3>';
     
     if (deaths.length > 0) {
         dayResults += `<div style="background: rgba(220, 53, 69, 0.2); padding: 15px; border-radius: 8px; margin: 10px 0;">`;
@@ -501,7 +501,7 @@ function startDay() {
     if (gameState.currentNight === 1 && gameState.mitomaneNewRole) {
         dayResults += `<div style="background: rgba(255, 193, 7, 0.2); padding: 15px; border-radius: 8px; margin: 10px 0;">`;
         dayResults += `<h4>📢 Annuncio dell'organizzazione:</h4>`;
-        dayResults += `<p>"Il Galletti ha cambiato squadra ed è diventato ${gameState.mitomaneNewRole}"</p>`;
+        dayResults += `<p>"Il Galletti ha cambiato società ed è diventato ${gameState.mitomaneNewRole}"</p>`;
         dayResults += '</div>';
     }
     
@@ -519,8 +519,8 @@ function startDay() {
 
 function updateVoteSelect() {
     const voteSelect = document.getElementById('vote-select');
-    voteSelect.innerHTML = '<option value="">Seleziona chi eliminare dalla gara</option>';
-    voteSelect.innerHTML += '<option value="abstain">Non eliminiamo nessuno</option>';
+    voteSelect.innerHTML = '<option value="">Seleziona chi squalificare dalla gara</option>';
+    voteSelect.innerHTML += '<option value="abstain">Non squalifichiamo nessuno</option>';
     
     gameState.players.filter(p => p.alive).forEach(player => {
         voteSelect.innerHTML += `<option value="${player.id}">${player.name}</option>`;
@@ -536,7 +536,7 @@ function executeVote() {
     }
     
     if (vote === 'abstain') {
-        alert('L\'organizzazione decide di non eliminare nessuno. Si passa alla prossima gara notturna.');
+        alert('L\'organizzazione decide di non squalificare nessuno. Si passa alla prossima gara notturna.');
     } else {
         const targetId = parseInt(vote);
         const target = gameState.players.find(p => p.id === targetId);
@@ -587,7 +587,7 @@ function endGame(winner) {
     
     switch (winner) {
         case 'village':
-            winnerText = '🏆 Vittoria degli Onesti! Il Ladro di Lanterne è stato catturato!';
+            winnerText = '🏆 Vittoria dei concorrenti! Il Ladro di Lanterne è stato catturato!';
             break;
         case 'thieves':
             winnerText = '🔦 Vittoria del Ladro di Lanterne! Ha rubato tutte le lanterne della gara!';
@@ -660,4 +660,5 @@ function toggleRules() {
 function toggleRoleMap() {
     const roleMap = document.getElementById('role-map');
     roleMap.classList.toggle('hidden');
+
 }
