@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="https://public-frontend-cos.metadl.com/mgx/img/favicon.png" type="image/png">
+    <title>Lupus in Fabula - Modalità Orienteering</title>
+    <link rel="stylesheet" href="./style.css">
+</head>
+
+<body>
+    <a href="index.html" class="back-btn">← Torna al Menu</a>
+    
+    <div class="game-container">
+        <header class="game-header">
+            <h1>🏃‍♂️ Modalità Orienteering</h1>
+            <p>Versione speciale con nomi personalizzati - Ogni notte è una gara di orienteering!</p>
+        </header>
+
+        <!-- Setup iniziale -->
+        <section id="setup-section" class="game-section">
+            <h2>Configurazione Gara</h2>
+            <div class="controls">
+                <label for="player-count">Numero di partecipanti (min 4):</label>
+                <input type="number" id="player-count" min="4" max="20" value="4">
+                <button class="btn" onclick="setupGame()">Configura Squadre</button>
+            </div>
+            
+            <div id="role-setup" class="hidden">
+                <h3>Seleziona le squadre per la gara:</h3>
+                <div id="role-selection"></div>
+                <button class="btn btn-success" onclick="startGame()">Inizia Gara</button>
+            </div>
+        </section>
+
+        <!-- Regole e ruoli orienteering -->
+        <section id="rules-section" class="game-section">
+            <h2>📋 Squadre Orienteering</h2>
+            <button class="btn" onclick="toggleRules()">Mostra/Nascondi Squadre</button>
+            
+            <div id="rules-content" class="hidden">
+                <div class="rules-grid">
+                    <div class="rule-card">
+                        <h4>🔦 Ladro di Lanterne</h4>
+                        <p><strong>(Lupo)</strong> - Durante la notte ruba le lanterne degli altri partecipanti.</p>
+                    </div>
+                    <div class="rule-card">
+                        <h4>✨ Gesù Cristo</h4>
+                        <p><strong>(Veggente)</strong> - Ogni notte può illuminare il percorso e scoprire chi è un partecipante.</p>
+                    </div>
+                    <div class="rule-card">
+                        <h4>🛡️ Lo Zio Tony</h4>
+                        <p><strong>(Guardia)</strong> - Ogni notte può accompagnare e proteggere un partecipante.</p>
+                    </div>
+                    <div class="rule-card">
+                        <h4>🏮 La Lanterna</h4>
+                        <p><strong>(Contadino)</strong> - Partecipante base della gara di orienteering.</p>
+                    </div>
+                    <div class="rule-card">
+                        <h4>🎭 Il Galletti</h4>
+                        <p><strong>(Mitomane)</strong> - La prima notte sceglie di seguire qualcuno e ne imita il comportamento.</p>
+                    </div>
+                    <div class="rule-card">
+                        <h4>🤡 Il Biella</h4>
+                        <p><strong>(Matto)</strong> - Vuole essere eliminato dalla gara per vincere.</p>
+                    </div>
+                    <div class="rule-card">
+                        <h4>🧙‍♀️ Noemi</h4>
+                        <p><strong>(Strega)</strong> - Può salvare (1 volta) o sabotare qualcuno (1 volta) durante la gara.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Gioco attivo -->
+        <section id="game-section" class="game-section hidden">
+            <h2 id="phase-title">Notte 0 - Assegnazione Squadre</h2>
+            
+            <div id="night-phase" class="hidden">
+                <div id="narrator-text"></div>
+                <div id="role-actions"></div>
+                <div class="controls">
+                    <button class="btn" onclick="nextRole()">Prossima Squadra</button>
+                </div>
+            </div>
+
+            <div id="day-phase" class="hidden">
+                <div id="day-results"></div>
+                <h3>Eliminazione dalla Gara</h3>
+                <div class="controls">
+                    <select id="vote-select">
+                        <option value="">Seleziona chi eliminare dalla gara</option>
+                    </select>
+                    <button class="btn" onclick="executeVote()">Esegui Eliminazione</button>
+                </div>
+            </div>
+
+            <div id="first-night" class="hidden">
+                <h3>Prima Notte - Assegna i Nomi alle Squadre</h3>
+                <div id="name-assignment"></div>
+                <button class="btn btn-success" onclick="finishNameAssignment()">Inizia la Gara</button>
+            </div>
+        </section>
+
+        <!-- Stato giocatori -->
+        <section id="players-section" class="game-section hidden">
+            <h2>🏃‍♂️ Stato Partecipanti</h2>
+            <div id="players-list" class="player-list"></div>
+        </section>
+
+        <!-- Mappa ruoli -->
+        <section id="role-map-section" class="game-section hidden">
+            <h2>🗺️ Mappa delle Squadre</h2>
+            <button class="btn" onclick="toggleRoleMap()">Mostra/Nascondi Mappa</button>
+            <div id="role-map" class="hidden"></div>
+        </section>
+    </div>
+
+    <script src="orienteering.js"></script>
+</body>
+
+</html>
