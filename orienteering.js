@@ -1,4 +1,4 @@
-// Variabili globali per la modalità orienteering
+à// Variabili globali per la modalità orienteering
 let gameState = {
     players: [],
     roles: [],
@@ -47,8 +47,8 @@ function setupGame() {
     
     // Crea interfaccia per personalizzare ruoli
     roleSelection.innerHTML = `
-        <p>Squadre base assegnate: ${baseRoles.join(', ')}</p>
-        <h4>Personalizza le squadre (opzionale):</h4>
+        <p>Società base assegnate: ${baseRoles.join(', ')}</p>
+        <h4>Personalizza le società (opzionale):</h4>
     `;
     
     Object.keys(orienteeringRoles).forEach(role => {
@@ -76,7 +76,7 @@ function startGame() {
     
     const playerCount = parseInt(document.getElementById('player-count').value);
     if (selectedRoles.length !== playerCount) {
-        alert(`Il numero di squadre (${selectedRoles.length}) non corrisponde al numero di partecipanti (${playerCount})!`);
+        alert(`Il numero di società (${selectedRoles.length}) non corrisponde al numero di partecipanti (${playerCount})!`);
         return;
     }
     
@@ -102,7 +102,7 @@ function startGame() {
 
 function startFirstNight() {
     gameState.gamePhase = 'firstNight';
-    document.getElementById('phase-title').textContent = 'Notte 0 - Assegnazione Squadre';
+    document.getElementById('phase-title').textContent = 'Manche 0 - Assegnazione Società';
     
     const nameAssignment = document.getElementById('name-assignment');
     nameAssignment.innerHTML = '';
@@ -179,7 +179,7 @@ function startNight() {
         gameState.nightRoles.push('Noemi');
     }
     
-    document.getElementById('phase-title').textContent = `Notte ${gameState.currentNight} - Gara di Orienteering`;
+    document.getElementById('phase-title').textContent = `Manche ${gameState.currentNight} - Gara di Orienteering`;
     
     // Mostra animazione notte
     showNightAnimation();
@@ -194,7 +194,7 @@ function startNight() {
 function showNightAnimation() {
     const animation = document.createElement('div');
     animation.className = 'night-animation';
-    animation.innerHTML = '🌙 Inizia la gara in notturna di orienteering... 🏃‍♂️';
+    animation.innerHTML = '🌙 Inizia la manche notturna di orienteering... 🏃‍♂️';
     document.body.appendChild(animation);
     
     setTimeout(() => {
@@ -662,3 +662,4 @@ function toggleRoleMap() {
     roleMap.classList.toggle('hidden');
 
 }
+
