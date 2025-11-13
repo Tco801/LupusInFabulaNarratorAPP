@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="https://www.fiso.it/_site/_img/_favicon/android-icon-36x36.png" type="image/png">
+    <link rel="icon" type="image/png" sizes="16x16" href="https://www.fiso.it/_site/_img/_favicon/favicon-16x16.png">
     <title>Lupus in Fabula - Modalità Orienteering</title>
     <link rel="stylesheet" href="./style.css">
 </head>
@@ -28,7 +28,7 @@
             </div>
             
             <div id="role-setup" class="hidden">
-                <h3>Seleziona le squadre per la gara:</h3>
+                <h3>Seleziona le società per la gara:</h3>
                 <div id="role-selection"></div>
                 <button class="btn btn-success" onclick="startGame()">Inizia Gara</button>
             </div>
@@ -36,14 +36,14 @@
 
         <!-- Regole e ruoli orienteering -->
         <section id="rules-section" class="game-section">
-            <h2>📋 Squadre Orienteering</h2>
+            <h2>📋 Società Orienteering</h2>
             <button class="btn" onclick="toggleRules()">Mostra/Nascondi Squadre</button>
             
             <div id="rules-content" class="hidden">
                 <div class="rules-grid">
                     <div class="rule-card">
                         <h4>🔦 Ladro di Lanterne</h4>
-                        <p><strong>(Lupo)</strong> - Durante la notte ruba le lanterne degli altri partecipanti.</p>
+                        <p><strong>(Lupo)</strong> - Durante la notte ruba le lanterne sul percorso.</p>
                     </div>
                     <div class="rule-card">
                         <h4>✨ Gesù Cristo</h4>
@@ -59,11 +59,11 @@
                     </div>
                     <div class="rule-card">
                         <h4>🎭 Il Galletti</h4>
-                        <p><strong>(Mitomane)</strong> - La prima notte sceglie di seguire qualcuno e ne imita il comportamento.</p>
+                        <p><strong>(Mitomane)</strong> - La prima notte sceglie di esaltare l'arrivo di qualcuno e ne imita il comportamento.</p>
                     </div>
                     <div class="rule-card">
                         <h4>🤡 Il Biella</h4>
-                        <p><strong>(Matto)</strong> - Vuole essere eliminato dalla gara per vincere.</p>
+                        <p><strong>(Matto)</strong> - Vuole essere squalificato dalla gara per vincere.</p>
                     </div>
                     <div class="rule-card">
                         <h4>🧙‍♀️ Noemi</h4>
@@ -122,3 +122,4 @@
 
 
 </html>
+
