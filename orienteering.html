@@ -37,7 +37,7 @@
         <!-- Regole e ruoli orienteering -->
         <section id="rules-section" class="game-section">
             <h2>📋 Società Orienteering</h2>
-            <button class="btn" onclick="toggleRules()">Mostra/Nascondi Squadre</button>
+            <button class="btn" onclick="toggleRules()">Mostra/Nascondi Società</button>
             
             <div id="rules-content" class="hidden">
                 <div class="rules-grid">
@@ -75,29 +75,29 @@
 
         <!-- Gioco attivo -->
         <section id="game-section" class="game-section hidden">
-            <h2 id="phase-title">Notte 0 - Assegnazione Squadre</h2>
+            <h2 id="phase-title">Manche 0 - Assegnazione Società</h2>
             
             <div id="night-phase" class="hidden">
                 <div id="narrator-text"></div>
                 <div id="role-actions"></div>
                 <div class="controls">
-                    <button class="btn" onclick="nextRole()">Prossima Squadra</button>
+                    <button class="btn" onclick="nextRole()">Prossima Società</button>
                 </div>
             </div>
 
             <div id="day-phase" class="hidden">
                 <div id="day-results"></div>
-                <h3>Eliminazione dalla Gara</h3>
+                <h3><squalificazione dalla Gara</h3>
                 <div class="controls">
                     <select id="vote-select">
-                        <option value="">Seleziona chi eliminare dalla gara</option>
+                        <option value="">Seleziona chi squalificare dalla gara</option>
                     </select>
-                    <button class="btn" onclick="executeVote()">Esegui Eliminazione</button>
+                    <button class="btn" onclick="executeVote()">Esegui Squalifica</button>
                 </div>
             </div>
 
             <div id="first-night" class="hidden">
-                <h3>Prima Notte - Assegna i Nomi alle Squadre</h3>
+                <h3>Prima Notte - Assegna i Nomi alle Società</h3>
                 <div id="name-assignment"></div>
                 <button class="btn btn-success" onclick="finishNameAssignment()">Inizia la Gara</button>
             </div>
@@ -111,7 +111,7 @@
 
         <!-- Mappa ruoli -->
         <section id="role-map-section" class="game-section hidden">
-            <h2>🗺️ Mappa delle Squadre</h2>
+            <h2>🗺️ Mappa delle Società</h2>
             <button class="btn" onclick="toggleRoleMap()">Mostra/Nascondi Mappa</button>
             <div id="role-map" class="hidden"></div>
         </section>
@@ -122,4 +122,5 @@
 
 
 </html>
+
 
