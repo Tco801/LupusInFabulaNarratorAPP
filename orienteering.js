@@ -1,4 +1,4 @@
-à// Variabili globali per la modalità orienteering
+// Variabili globali per la modalità orienteering
 let gameState = {
     players: [],
     roles: [],
@@ -662,4 +662,5 @@ function toggleRoleMap() {
     roleMap.classList.toggle('hidden');
 
 }
+
 
