@@ -15,13 +15,13 @@ let gameState = {
 
 // Definizione ruoli orienteering (mappatura dai ruoli classici, senza criceto)
 const orienteeringRoles = {
-    'La Lanterna': { name: 'La Lanterna', team: 'village', nightAction: false, classicRole: 'Contadino' },
-    'Ladro di Lanterne': { name: 'Ladro di Lanterne', team: 'wolves', nightAction: true, classicRole: 'Lupo' },
-    'Gesù Cristo': { name: 'Gesù Cristo', team: 'village', nightAction: true, classicRole: 'Veggente' },
-    'Lo Zio Tony': { name: 'Lo Zio Tony', team: 'village', nightAction: true, classicRole: 'Guardia' },
-    'Il Galletti': { name: 'Il Galletti', team: 'village', nightAction: true, classicRole: 'Mitomane' },
-    'Il Biella': { name: 'Il Biella', team: 'fool', nightAction: false, classicRole: 'Matto' },
-    'Noemi': { name: 'Noemi', team: 'village', nightAction: true, classicRole: 'Strega' }
+    'Orientista': { name: 'Orientista', team: 'Villaggio', nightAction: false, classicRole: 'Contadino' },
+    'Ladro di Lanterne': { name: 'Ladro di Lanterne', team: 'Lupi', nightAction: true, classicRole: 'Lupo' },
+    'Gesù Cristo': { name: 'Gesù Cristo', team: 'Villaggio', nightAction: true, classicRole: 'Veggente' },
+    'Lo Zio Tony': { name: 'Lo Zio Tony', team: 'Villaggio', nightAction: true, classicRole: 'Guardia' },
+    'Il Galletti': { name: 'Il Galletti', team: 'Villaggio', nightAction: true, classicRole: 'Mitomane' },
+    'Il Biella': { name: 'Il Biella', team: 'Matto', nightAction: false, classicRole: 'Matto' },
+    'Noemi': { name: 'Noemi', team: 'Villaggio', nightAction: true, classicRole: 'Strega' }
 };
 
 function setupGame() {
@@ -42,13 +42,13 @@ function setupGame() {
     
     // Aggiungi lanterne per il resto
     for (let i = 0; i < remainingSlots; i++) {
-        baseRoles.push('La Lanterna');
+        baseRoles.push('Orientista');
     }
     
     // Crea interfaccia per personalizzare ruoli
     roleSelection.innerHTML = `
         <p>Società base assegnate: ${baseRoles.join(', ')}</p>
-        <h4>Personalizza le società (opzionale):</h4>
+        <h4>Personalizza ruoli (opzionale):</h4>
     `;
     
     Object.keys(orienteeringRoles).forEach(role => {
@@ -76,7 +76,7 @@ function startGame() {
     
     const playerCount = parseInt(document.getElementById('player-count').value);
     if (selectedRoles.length !== playerCount) {
-        alert(`Il numero di società (${selectedRoles.length}) non corrisponde al numero di partecipanti (${playerCount})!`);
+        alert(`Il numero di ruoli (${selectedRoles.length}) non corrisponde al numero di partecipanti (${playerCount})!`);
         return;
     }
     
@@ -236,7 +236,7 @@ function processThiefTurn(narratorText, roleActions) {
     const targets = gameState.players.filter(p => p.alive && p.role !== 'Ladro di Lanterne');
     
     const thiefText = thieves.length === 1 ? 'Si muove nel buio il Ladro di Lanterne' : 'Si muovono nel buio i Ladri di Lanterne';
-    const actionText = thieves.length === 1 ? 'ladro, a chi vuoi rubare la lanterna?' : 'ladri, a chi volete rubare la lanterna?';
+    const actionText = thieves.length === 1 ? 'Ladro, a chi vuoi rubare la lanterna?' : 'Ladri, a chi volete rubare la lanterna?';
     
     narratorText.innerHTML = `<h3>"${thiefText}, ${actionText}"</h3>`;
     
@@ -260,7 +260,7 @@ function confirmThiefKill() {
     }
     
     gameState.targetToKill = parseInt(targetId);
-    document.getElementById('narrator-text').innerHTML = '<h3>"Il Ladro di Lanterne si nasconde tra i cespugli"</h3>';
+    document.getElementById('narrator-text').innerHTML = '<h3>"Il Ladro di Lanterne si nasconde tra i cespugli e continua la sua gara."</h3>';
     document.getElementById('role-actions').innerHTML = '';
     
     setTimeout(() => {
@@ -271,7 +271,7 @@ function confirmThiefKill() {
 function processGuardTurn(narratorText, roleActions) {
     const targets = gameState.players.filter(p => p.alive);
     
-    narratorText.innerHTML = '<h3>"Lo Zio Tony pattuglia il percorso, chi vuoi accompagnare e proteggere?"</h3>';
+    narratorText.innerHTML = '<h3>"Lo Zio Tony controlla il perocrso, chi vuoi accompagnare e proteggere?"</h3>';
     
     let selectHtml = '<select id="guard-target"><option value="">Seleziona chi accompagnare</option>';
     targets.forEach(player => {
@@ -293,7 +293,7 @@ function confirmGuardProtection() {
         player.protected = true;
     }
     
-    document.getElementById('narrator-text').innerHTML = '<h3>"Lo Zio Tony si ferma a riposare"</h3>';
+    document.getElementById('narrator-text').innerHTML = '<h3>"Lo Zio Tony torna al ritrovo"</h3>';
     document.getElementById('role-actions').innerHTML = '';
     
     setTimeout(() => {
@@ -304,7 +304,7 @@ function confirmGuardProtection() {
 function processSeerTurn(narratorText, roleActions) {
     const targets = gameState.players.filter(p => p.alive);
     
-    narratorText.innerHTML = '<h3>"Gesù Cristo illumina il sentiero, di chi vuoi vedere la vera natura?"</h3>';
+    narratorText.innerHTML = '<h3>"Gesù Cristo illumina il sentiero con la torcia frontale, di chi vuoi vedere la vera natura?"</h3>';
     
     let selectHtml = '<select id="seer-target"><option value="">Seleziona chi illuminare</option>';
     targets.forEach(player => {
@@ -337,7 +337,7 @@ function confirmSeerVision() {
     }
     
     setTimeout(() => {
-        document.getElementById('narrator-text').innerHTML = '<h3>"Gesù Cristo spegne la sua luce"</h3>';
+        document.getElementById('narrator-text').innerHTML = '<h3>"Gesù Cristo spegne la sua torcia frontale e trona al ritrovo"</h3>';
         document.getElementById('role-actions').innerHTML = '';
         
         setTimeout(() => {
@@ -376,7 +376,7 @@ function confirmMitomaneChoice() {
     gameState.mitomaneNewRole = target.role;
     mitomane.role = target.role;
     
-    document.getElementById('narrator-text').innerHTML = '<h3>"Il galletti urla a scquarcia gola nel microfono che non cè conuntdown e si risiede"</h3>';
+    document.getElementById('narrator-text').innerHTML = '<h3>"Il galletti urla a scquarcia gola nel microfono che non cè conuntdown e ritorna al suo posto"</h3>';
     document.getElementById('role-actions').innerHTML = '';
     
     setTimeout(() => {
@@ -662,5 +662,6 @@ function toggleRoleMap() {
     roleMap.classList.toggle('hidden');
 
 }
+
 
 
