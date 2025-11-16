@@ -212,58 +212,41 @@ function showNightAnimation() {
 }
 
 function processNextRole() {
-    const currentRole = gameState.nightRoles[gameState.currentRoleIndex];
-    const narratorText = document.getElementById('narrator-text');
-    const roleActions = document.getElementById('role-actions');
-    
-    switch (currentRole.role) {
-        case 'Lupo':
-            processWolfTurn(narratorText, roleActions, currentRole);
-            break;
-        case 'Guardia':
-            processGuardTurn(narratorText, roleActions, currentRole);
-            break;
-        case 'Veggente':
-            processSeerTurn(narratorText, roleActions, currentRole);
-            break;
-        case 'Mitomane':
-            processMitomaneTurn(narratorText, roleActions, currentRole);
-            break;
-        case 'Criceto Mannaro':
-            processCricetoTurn(narratorText, roleActions, currentRole);
-            break;
-        case 'Strega':
-            processWitchTurn(narratorText, roleActions, currentRole);
-            break;
-    }
+  if (gameState.currentRoleIndex >= gameState.nightRoles.length) {
+    startDay();
+    return;
+  }
 
-    
-    const currentRole = gameState.nightRoles[gameState.currentRoleIndex];
-    const narratorText = document.getElementById('narrator-text');
-    const roleActions = document.getElementById('role-actions');
-    
-    switch (currentRole) {
-        case 'Lupo':
-            processWolfTurn(narratorText, roleActions);
-            break;
-        case 'Guardia':
-            processGuardTurn(narratorText, roleActions);
-            break;
-        case 'Veggente':
-            processSeerTurn(narratorText, roleActions);
-            break;
-        case 'Mitomane':
-            processMitomaneTurn(narratorText, roleActions);
-            break;
-        case 'Criceto Mannaro':
-            processCricetoTurn(narratorText, roleActions);
-            break;
-        case 'Strega':
-            processWitchTurn(narratorText, roleActions);
-            break;
-    }
+  const currentRole = gameState.nightRoles[gameState.currentRoleIndex];
+  const narratorText = document.getElementById('narrator-text');
+  const roleActions = document.getElementById('role-actions');
+
+  switch (currentRole.role) {
+    case 'Lupo':
+      processWolfTurn(narratorText, roleActions, currentRole);
+      break;
+    case 'Guardia':
+      processGuardTurn(narratorText, roleActions, currentRole);
+      break;
+    case 'Veggente':
+      processSeerTurn(narratorText, roleActions, currentRole);
+      break;
+    case 'Mitomane':
+      processMitomaneTurn(narratorText, roleActions, currentRole);
+      break;
+    case 'Criceto Mannaro':
+      processCricetoTurn(narratorText, roleActions, currentRole);
+      break;
+    case 'Strega':
+      processWitchTurn(narratorText, roleActions, currentRole);
+      break;
+  }
 }
 
+function nextRole() {
+  gameState.currentRoleIndex++;
+  processNextRole();
+}
 function processWolfTurn(narratorText, roleActions) {
     const wolves = gameState.players.filter(p => p.alive && p.role === 'Lupo');
     const targets = gameState.players.filter(p => p.alive && p.role !== 'Lupo');
@@ -726,4 +709,5 @@ function toggleRoleMap() {
     roleMap.classList.toggle('hidden');
 
 }
+
 
