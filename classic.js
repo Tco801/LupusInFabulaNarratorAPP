@@ -154,38 +154,40 @@ function startNight() {
     gameState.players.forEach(p => p.protected = false);
     
     // Determina l'ordine dei ruoli per la notte
-    gameState.nightRoles = [];
+   gameState.nightRoles = [];
     
-    // Lupi
+    // Lupi (insieme)
     if (gameState.players.some(p => p.alive && p.role === 'Lupo')) {
-        gameState.nightRoles.push('Lupo');
+        gameState.nightRoles.push({ role: 'Lupo', players: gameState.players.filter(p => p.alive && p.role === 'Lupo'), label: 'Lupi' });
     }
     
-    // Guardia
-    if (gameState.players.some(p => p.alive && p.role === 'Guardia')) {
-        gameState.nightRoles.push('Guardia');
+    // Guardia (uno per volta)
+    gameState.players.filter(p => p.alive && p.role === 'Guardia').forEach((guard, i) => {
+        gameState.nightRoles.push({ role: 'Guardia', players: [guard], label: `Guardia ${i+1}` });
+    });
+    
+    // Veggente (uno per volta)
+    gameState.players.filter(p => p.alive && p.role === 'Veggente').forEach((seer, i) => {
+        gameState.nightRoles.push({ role: 'Veggente', players: [seer], label: `Veggente ${i+1}` });
+    });
+    
+    // Mitomane (uno per volta, solo prima notte)
+    if (gameState.currentNight === 1) {
+        gameState.players.filter(p => p.alive && p.role === 'Mitomane').forEach((mito, i) => {
+            gameState.nightRoles.push({ role: 'Mitomane', players: [mito], label: `Mitomane ${i+1}` });
+        });
     }
     
-    // Veggente
-    if (gameState.players.some(p => p.alive && p.role === 'Veggente')) {
-        gameState.nightRoles.push('Veggente');
-    }
+    // Criceto Mannaro (uno per volta)
+    gameState.players.filter(p => p.alive && p.role === 'Criceto Mannaro').forEach((criceto, i) => {
+        gameState.nightRoles.push({ role: 'Criceto Mannaro', players: [criceto], label: `Criceto Mannaro ${i+1}` });
+    });
     
-    // Mitomane (solo prima notte)
-    if (gameState.currentNight === 1 && gameState.players.some(p => p.alive && p.role === 'Mitomane')) {
-        gameState.nightRoles.push('Mitomane');
-    }
-    
-    // Criceto Mannaro
-    if (gameState.players.some(p => p.alive && p.role === 'Criceto Mannaro')) {
-        gameState.nightRoles.push('Criceto Mannaro');
-    }
-    
-    // Strega (per ultima)
-    if (gameState.players.some(p => p.alive && p.role === 'Strega')) {
-        gameState.nightRoles.push('Strega');
-    }
-    
+    // Strega (uno per volta)
+    gameState.players.filter(p => p.alive && p.role === 'Strega').forEach((witch, i) => {
+        gameState.nightRoles.push({ role: 'Strega', players: [witch], label: `Strega ${i+1}` });
+    });
+
     document.getElementById('phase-title').textContent = `Notte ${gameState.currentNight}`;
     
     // Mostra animazione notte
@@ -210,10 +212,31 @@ function showNightAnimation() {
 }
 
 function processNextRole() {
-    if (gameState.currentRoleIndex >= gameState.nightRoles.length) {
-        startDay();
-        return;
+    const currentRole = gameState.nightRoles[gameState.currentRoleIndex];
+    const narratorText = document.getElementById('narrator-text');
+    const roleActions = document.getElementById('role-actions');
+    
+    switch (currentRole.role) {
+        case 'Lupo':
+            processWolfTurn(narratorText, roleActions, currentRole);
+            break;
+        case 'Guardia':
+            processGuardTurn(narratorText, roleActions, currentRole);
+            break;
+        case 'Veggente':
+            processSeerTurn(narratorText, roleActions, currentRole);
+            break;
+        case 'Mitomane':
+            processMitomaneTurn(narratorText, roleActions, currentRole);
+            break;
+        case 'Criceto Mannaro':
+            processCricetoTurn(narratorText, roleActions, currentRole);
+            break;
+        case 'Strega':
+            processWitchTurn(narratorText, roleActions, currentRole);
+            break;
     }
+
     
     const currentRole = gameState.nightRoles[gameState.currentRoleIndex];
     const narratorText = document.getElementById('narrator-text');
@@ -512,16 +535,19 @@ function startDay() {
     const deaths = [];
     
     // Morte per lupi
-    if (gameState.targetToKill) {
+    if (gameState.targetToKill !== null) {
         const target = gameState.players.find(p => p.id === gameState.targetToKill);
-        if (target && !target.protected) {
-            target.alive = false;
-            deaths.push(`${target.name} è stato ucciso dai lupi`);
-        } else if (target && target.protected) {
-            deaths.push(`${target.name} è stato salvato dalla guardia`);
+        if (target) {
+            if (!target.protected) {
+                target.alive = false; // forza la morte
+                deaths.push(`${target.name} è stato ucciso dai lupi`);
+            } else {
+                deaths.push(`${target.name} è stato salvato dalla guardia`);
+            }
         }
+        gameState.targetToKill = null; // reset per evitare conflitti
     }
-    
+
     let dayResults = '<h3>"Si sveglia il villaggio"</h3>';
     
     if (deaths.length > 0) {
@@ -698,4 +724,5 @@ function toggleRules() {
 function toggleRoleMap() {
     const roleMap = document.getElementById('role-map');
     roleMap.classList.toggle('hidden');
+
 }
