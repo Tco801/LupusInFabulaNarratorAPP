@@ -726,3 +726,4 @@ function toggleRoleMap() {
     roleMap.classList.toggle('hidden');
 
 }
+
